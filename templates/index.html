@@ -1,0 +1,80 @@
+
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+  </head>
+  <body>
+
+<div class="modal modal-signin position-static d-block bg-secondary py-5" tabindex="-1" role="dialog" id="modalSignin">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content rounded-4 shadow">
+      <div class="modal-header p-5 pb-4 border-bottom-0">
+        <!-- <h5 class="modal-title">Modal title</h5> -->
+        <h2 class="fw-bold mb-0">Sign up for free</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body p-5 pt-0">
+
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control rounded-3 room" id="floatingInput" placeholder="КОМНАТА">
+            <label for="floatingInput">КОМНАТА</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control rounded-3 message" id="floatingPassword" placeholder="СООБЩЕНИЕ">
+            <label for="floatingPassword">СООБЩЕНИЕ</label>
+          </div>
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" onclick="connect_to_room()">Подключится</button>
+          <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit" onclick="send_message()">Отправить сообщение</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="messages" style="text-align: center"></div>
+
+
+
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+
+<script type="text/javascript" charset="utf-8">
+    var socket = io(); // ОЗДАТЬ ОБЬЕКТ СОЕДЕНИТЕЛЬ С СЕРВЕРОМ
+
+
+function connect_to_room(){ // ПОДКЛЮЧИТСЯ К КОМНАТЕ
+	socket.emit('set_room',data = $('.room').val()); 
+	// ПОЛУЧИТ ДАННЫЕ ИЗ ПОЛЯ ВВОДА <input type="text" name="" class="my_room">
+	// Вызвать действие set_room на сервере с данными
+}
+
+function send_message(){
+	socket.send($('.message').val());
+	// Отправить сообщение из поля ввода <input type="" name="" class="my_text">
+}
+
+socket.on("message",function(message){
+	$('.messages').append('<li>'+message+'</li>')
+	// ПРИ ПОЛУЧЕНИИ ДОБАВИТЬ К ЕЛЕМЕНТУ <div class="messages"></div>
+})
+
+
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+
+
+
+
+
+
